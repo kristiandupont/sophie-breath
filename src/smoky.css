@@ -1,0 +1,65 @@
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script);
+
+body {
+  background: white;
+  overflow: hidden;
+  text-align: center;
+  color: black;
+  backface-visibility: hidden;
+}
+
+span.smoky {
+  font: 5vw/100vh "dancing script";
+  display: inline-block;
+  text-shadow: 0 0 0 black;
+  animation: smoky 2s 1s both;
+}
+
+span.smoky:nth-child(even) {
+  animation-name: smoky-mirror;
+}
+
+span.breathing {
+  font: 5vw/100vh "dancing script";
+  display: inline-block;
+  text-shadow: 0 0 0 black;
+  animation: breathe 5s infinite alternate;
+}
+
+@keyframes smoky {
+  60% {
+    text-shadow: 0 0 40px black;
+  }
+  from {
+    transform: translate3d(15rem, -8rem, 0) rotate(-40deg) skewX(70deg)
+      scale(1.5);
+    filter: blur(20px);
+    text-shadow: 0 0 20px black;
+    opacity: 0;
+  }
+}
+
+@keyframes smoky-mirror {
+  60% {
+    text-shadow: 0 0 40px black;
+  }
+  from {
+    transform: translate3d(18rem, -8rem, 0) rotate(-40deg) skewX(-70deg)
+      scale(2);
+    filter: blur(20px);
+    text-shadow: 0 0 20px black;
+    opacity: 0;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  50% {
+    transform: scale(0.85);
+    filter: blur(1.2px);
+  }
+}
