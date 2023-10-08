@@ -12,13 +12,14 @@ const routes: Record<string, Component> = {
   "/token": TokenPage,
 };
 
-function* RoutedPanel(this: Context) {
+function* Router(this: Context) {
   const onPopState = () => this.refresh();
   window.addEventListener("popstate", onPopState);
 
   try {
     while (true) {
       const path = window.location.pathname;
+      console.log("Rendering: ", path);
       const Route = routes[path];
       yield (
         <div class="flex h-screen flex-col">
@@ -34,7 +35,7 @@ function* RoutedPanel(this: Context) {
 
 const App = () => (
   <>
-    <RoutedPanel />
+    <Router />
   </>
 );
 

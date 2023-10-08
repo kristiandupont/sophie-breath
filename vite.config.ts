@@ -5,4 +5,5 @@ export default defineConfig({
   plugins: [],
   esbuild: { jsxDev: false },
   build: { outDir: "docs" },
+  base: "/sophie-breath",
 });

@@ -9,7 +9,8 @@ export function TokenPage(this: Context) {
   };
 
   const onClick = () => {
-    window.location.pathname = "/";
+    history.pushState({}, "", `${import.meta.env.BASE_URL}/`);
+    window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
   return (

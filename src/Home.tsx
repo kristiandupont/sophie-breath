@@ -12,7 +12,7 @@ async function* Response(this: Context, { stream }: { stream: any }) {
           <div className="flex h-full w-full flex-col items-start justify-start">
             <div className="">
               {/* <SmokyText text={response} /> */}
-              {response.split(" ").map((c, i) => (
+              {response.split(" ").map((c) => (
                 <span class="enter mx-2">{c}</span>
               ))}
             </div>
@@ -22,9 +22,14 @@ async function* Response(this: Context, { stream }: { stream: any }) {
     );
   }
 }
+
 export function* Home(this: Context) {
   if (!localStorage.getItem("openai-token")) {
-    window.location.pathname = "/token";
+    setTimeout(() => {
+      console.log('Token not found. Redirecting to "/token"');
+      history.pushState({}, "", `${import.meta.env.BASE_URL}/token`);
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    }, 100);
     yield null;
   }
 
@@ -32,16 +37,12 @@ export function* Home(this: Context) {
 
   const onSubmit = async (e: Event) => {
     e.preventDefault();
-    console.log("Submitting...", e);
 
     const query = (document.getElementById("query") as HTMLInputElement)
       .value as string;
 
     await this.refresh();
     console.log("Sending query");
-
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    // response = `Response from the AI: ${query}`;
     stream = await getAiResponse(query);
 
     await this.refresh();
