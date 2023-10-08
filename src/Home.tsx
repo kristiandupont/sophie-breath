@@ -1,17 +1,24 @@
 import { Context } from "@b9g/crank";
-import { getAiResponse } from "./getAiResponse";
+import getAiResponse from "./getAiResponse";
 
-async function* Response(this: Context, { stream }: { stream: any }) {
+async function* Response(
+  this: Context,
+  { stream, onProceed }: { stream: any; onProceed: any }
+) {
   let response = "";
 
   for await (const part of stream) {
-    response += part.choices[0].delta.content;
+    const token = part.choices[0].delta.content;
+    console.log("New Part: ", token);
+    if (token) {
+      response += token;
+    }
+
     yield (
       <div class="flex h-screen flex-col p-8">
         <div className="flex h-full w-full items-start justify-start">
           <div className="flex h-full w-full flex-col items-start justify-start">
             <div className="">
-              {/* <SmokyText text={response} /> */}
               {response.split(" ").map((c) => (
                 <span class="enter mx-2">{c}</span>
               ))}
@@ -21,6 +28,39 @@ async function* Response(this: Context, { stream }: { stream: any }) {
       </div>
     );
   }
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  yield (
+    <div class="flex h-screen flex-col p-8">
+      <div className="flex h-full w-full items-start justify-start">
+        <div className="flex h-full w-full flex-col items-start justify-start">
+          <div className="">
+            {response.split(" ").map((c) => (
+              <span class="breathing mx-2">{c}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+  yield (
+    <div class="flex h-screen flex-col p-8">
+      <div className="flex h-full w-full items-start justify-start">
+        <div className="flex h-full w-full flex-col items-start justify-start">
+          <div className="">
+            {response.split(" ").map((c) => (
+              <span class="exit mx-2">{c}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  onProceed();
+  yield null;
 }
 
 export function* Home(this: Context) {
@@ -75,9 +115,19 @@ export function* Home(this: Context) {
       </div>
     );
 
-    yield <div>Waiting for response...</div>;
+    yield (
+      <div class="flex h-screen flex-col">
+        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
+          <div className="flex h-full w-full flex-col items-center justify-center">
+            <div className="flex w-full flex-row items-center justify-center">
+              <span className="breathing">...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 
     setTimeout(() => this.refresh(), 100000);
-    yield <Response stream={stream} />;
+    yield <Response stream={stream} onProceed={() => this.refresh()} />;
   }
 }
