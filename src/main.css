@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+body {
+  background: white;
+  overflow: hidden;
+  color: black;
+  backface-visibility: hidden;
+}
