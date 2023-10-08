@@ -18,7 +18,8 @@ function* Router(this: Context) {
 
   try {
     while (true) {
-      const path = window.location.pathname;
+      const basePath = import.meta.env.BASE_URL;
+      const path = window.location.pathname.substring(basePath.length) || "/";
       console.log("Rendering: ", path);
       const Route = routes[path];
       yield (
