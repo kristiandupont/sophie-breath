@@ -44,7 +44,7 @@ async function* Response(
     </div>
   );
 
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+  await new Promise((resolve) => setTimeout(resolve, 20000));
   yield (
     <div class="flex h-screen flex-col p-8">
       <div className="flex h-full w-full items-start justify-start">
@@ -101,6 +101,7 @@ export function* Home(this: Context) {
                 id="query"
                 type="text"
                 placeholder="Tell me how you're feeling..."
+                autofocus
                 className="m-2 w-full max-w-screen-md rounded-md border-2 border-gray-500 p-2"
               />
               <button
