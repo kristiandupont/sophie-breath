@@ -1,7 +1,7 @@
-@import url(https://fonts.googleapis.com/css?family=Alex+Brush);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 span.enter {
-  font: 5vw "alex brush";
+  font: 3vw "Montserrat";
   display: inline-block;
   text-shadow: 0 0 0 black;
   animation: enter 2s 1s both;
@@ -38,7 +38,7 @@ span.enter:nth-child(even) {
 }
 
 span.breathing {
-  font: 5vw "alex brush";
+  font: 3vw "Montserrat";
   display: inline-block;
   animation: breathe 5s infinite alternate;
 }
@@ -58,7 +58,7 @@ span.breathing {
 }
 
 span.exit {
-  font: 5vw "alex brush";
+  font: 3vw "Montserrat";
   display: inline-block;
   text-shadow: 0 0 0 black;
   animation: exit 2s 1s both;
