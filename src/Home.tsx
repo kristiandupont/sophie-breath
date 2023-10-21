@@ -9,7 +9,7 @@ async function* Response(
 
   for await (const part of stream) {
     const token = part.choices[0].delta.content;
-    console.log("New Part: ", token);
+    // console.log("New Part: ", token);
     if (token) {
       response += token;
     }
@@ -44,7 +44,7 @@ async function* Response(
     </div>
   );
 
-  await new Promise((resolve) => setTimeout(resolve, 20000));
+  await new Promise((resolve) => setTimeout(resolve, 25000));
   yield (
     <div class="flex h-screen flex-col p-8">
       <div className="flex h-full w-full items-start justify-start">
@@ -60,7 +60,7 @@ async function* Response(
   );
   await new Promise((resolve) => setTimeout(resolve, 3000));
   onProceed();
-  console.log("Yielding null");
+  console.log("Response: Yielding null");
   yield null;
 }
 
@@ -71,6 +71,7 @@ export function* Home(this: Context) {
       history.pushState({}, "", `${import.meta.env.BASE_URL}/token`);
       window.dispatchEvent(new PopStateEvent("popstate"));
     }, 100);
+    console.log("Home: Yielding null after redirect");
     yield null;
   }
 
@@ -82,14 +83,17 @@ export function* Home(this: Context) {
     const query = (document.getElementById("query") as HTMLInputElement)
       .value as string;
 
+    console.log("Home: refreshing before query");
     await this.refresh();
     console.log("Sending query");
     stream = await getAiResponse(query);
 
+    console.log("Home: refreshing after query");
     await this.refresh();
   };
 
   while (true) {
+    console.log("Home: A");
     yield (
       <div class="flex h-screen flex-col">
         <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
@@ -117,6 +121,7 @@ export function* Home(this: Context) {
       </div>
     );
 
+    console.log("Home: B");
     yield (
       <div class="flex h-screen flex-col">
         <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
@@ -129,7 +134,15 @@ export function* Home(this: Context) {
       </div>
     );
 
-    setTimeout(() => this.refresh(), 100000);
-    yield <Response stream={stream} onProceed={() => this.refresh()} />;
+    console.log("Home: C");
+    yield (
+      <Response
+        stream={stream}
+        onProceed={() => {
+          console.log("ON PROCEED");
+          this.refresh();
+        }}
+      />
+    );
   }
 }

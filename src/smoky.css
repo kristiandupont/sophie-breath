@@ -40,7 +40,7 @@ span.enter:nth-child(even) {
 span.breathing {
   font: 3vw "Montserrat";
   display: inline-block;
-  animation: breathe 5s infinite alternate;
+  animation: breathe 10s infinite alternate;
 }
 
 @keyframes breathe {
