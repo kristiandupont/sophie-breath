@@ -60,6 +60,7 @@ async function* Response(
   );
   await new Promise((resolve) => setTimeout(resolve, 3000));
   onProceed();
+  console.log("Yielding null");
   yield null;
 }
 
