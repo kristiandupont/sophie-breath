@@ -30,6 +30,16 @@ async function* Response(
   }
   await new Promise((resolve) => setTimeout(resolve, 3000));
 
+  const clickPromise = () => {
+    return new Promise((resolve) => {
+      const onClick = () => {
+        document.removeEventListener("click", onClick);
+        resolve(0);
+      };
+      document.addEventListener("click", onClick);
+    });
+  };
+
   yield (
     <div class="flex h-screen flex-col p-8">
       <div className="flex h-full w-full items-start justify-start">
@@ -44,9 +54,11 @@ async function* Response(
     </div>
   );
 
-  await new Promise((resolve) => setTimeout(resolve, 25000));
+  await clickPromise();
+
+  // await new Promise((resolve) => setTimeout(resolve, 25000));
   yield (
-    <div class="flex h-screen flex-col p-8">
+    <div class="flex h-screen flex-col p-8" onclick={() => this.refresh()}>
       <div className="flex h-full w-full items-start justify-start">
         <div className="flex h-full w-full flex-col items-start justify-start">
           <div className="">
