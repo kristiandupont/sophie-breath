@@ -14,7 +14,7 @@ async function getAiResponse(
       role: "system",
     },
     {
-      content: "I am feeling " + query,
+      content: "I feel:" + query,
       role: "user",
     },
   ];

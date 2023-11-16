@@ -117,7 +117,7 @@ export function* Home(this: Context) {
               <input
                 id="query"
                 type="text"
-                placeholder="Tell me how you're feeling..."
+                placeholder="How do you feel?"
                 autofocus
                 className="m-2 w-full max-w-screen-md rounded-md border-2 border-gray-500 p-2"
               />
