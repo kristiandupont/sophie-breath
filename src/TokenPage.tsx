@@ -1,11 +1,23 @@
 import { Context } from "@b9g/crank";
 
 export function TokenPage(this: Context) {
-  const token = localStorage.getItem("openai-token") || "";
+  const openAIToken = localStorage.getItem("openai-token") || "";
+  const playHTToken = localStorage.getItem("playht-token") || "";
+  const proxyUrl = localStorage.getItem("proxy-url") || "";
 
-  const onInput = (e: Event) => {
+  const onOpenAIInput = (e: Event) => {
     const target = e.target as HTMLInputElement;
     localStorage.setItem("openai-token", target.value);
+  };
+
+  const onPlayHTIInput = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    localStorage.setItem("playht-token", target.value);
+  };
+
+  const onProxyUrlInput = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    localStorage.setItem("proxy-url", target.value);
   };
 
   const onClick = () => {
@@ -20,9 +32,27 @@ export function TokenPage(this: Context) {
           <div className="flex w-full flex-row items-center justify-center">
             <input
               type="text"
-              value={token}
-              oninput={onInput}
+              value={openAIToken}
+              oninput={onOpenAIInput}
               placeholder="OpenAI API Token"
+              className="m-2 w-full max-w-screen-md rounded-md border-2 border-gray-500 p-2"
+            />
+          </div>
+          <div className="flex w-full flex-row items-center justify-center">
+            <input
+              type="text"
+              value={playHTToken}
+              oninput={onPlayHTIInput}
+              placeholder="PlayHT API Token"
+              className="m-2 w-full max-w-screen-md rounded-md border-2 border-gray-500 p-2"
+            />
+          </div>
+          <div className="flex w-full flex-row items-center justify-center">
+            <input
+              type="text"
+              value={proxyUrl}
+              oninput={onProxyUrlInput}
+              placeholder="Proxy URL"
               className="m-2 w-full max-w-screen-md rounded-md border-2 border-gray-500 p-2"
             />
           </div>

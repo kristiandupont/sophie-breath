@@ -1,83 +1,13 @@
 import { Context } from "@b9g/crank";
 import getAiResponse from "./getAiResponse";
-
-async function* Response(
-  this: Context,
-  { stream, onProceed }: { stream: any; onProceed: any }
-) {
-  let response = "";
-
-  for await (const part of stream) {
-    const token = part.choices[0].delta.content;
-    // console.log("New Part: ", token);
-    if (token) {
-      response += token;
-    }
-
-    yield (
-      <div class="flex h-screen flex-col p-8">
-        <div className="flex h-full w-full items-start justify-start">
-          <div className="flex h-full w-full flex-col items-start justify-start">
-            <div className="">
-              {response.split(" ").map((c) => (
-                <span class="enter mx-2">{c}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  const clickPromise = () => {
-    return new Promise((resolve) => {
-      const onClick = () => {
-        document.removeEventListener("click", onClick);
-        resolve(0);
-      };
-      document.addEventListener("click", onClick);
-    });
-  };
-
-  yield (
-    <div class="flex h-screen flex-col p-8">
-      <div className="flex h-full w-full items-start justify-start">
-        <div className="flex h-full w-full flex-col items-start justify-start">
-          <div className="">
-            {response.split(" ").map((c) => (
-              <span class="breathing mx-2">{c}</span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  await clickPromise();
-
-  // await new Promise((resolve) => setTimeout(resolve, 25000));
-  yield (
-    <div class="flex h-screen flex-col p-8" onclick={() => this.refresh()}>
-      <div className="flex h-full w-full items-start justify-start">
-        <div className="flex h-full w-full flex-col items-start justify-start">
-          <div className="">
-            {response.split(" ").map((c) => (
-              <span class="exit mx-2">{c}</span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  onProceed();
-  console.log("Response: Yielding null");
-  yield null;
-}
+import Response from "./Response";
 
 export function* Home(this: Context) {
-  if (!localStorage.getItem("openai-token")) {
+  if (
+    !localStorage.getItem("openai-token") ||
+    !localStorage.getItem("playht-token") ||
+    !localStorage.getItem("proxy-url")
+  ) {
     setTimeout(() => {
       console.log('Token not found. Redirecting to "/token"');
       history.pushState({}, "", `${import.meta.env.BASE_URL}/token`);
