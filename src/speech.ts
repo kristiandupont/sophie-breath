@@ -118,7 +118,7 @@ export async function getSpeech(text: string): Promise<string> {
   const body = {
     text: text,
     voice:
-      "s3://voice-cloning-zero-shot/9c8fccf2-06d8-4042-adf9-4e69d0f7625b/sophie/manifest.json",
+      "s3://voice-cloning-zero-shot/f41cbb3f-3a6b-49a4-a121-6f2255a4b7d4/sophie-2/manifest.json",
     voice_engine: "PlayHT2.0",
   };
 
