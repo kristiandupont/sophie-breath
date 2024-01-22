@@ -36,16 +36,27 @@ async function processTTSQueue() {
   ttsState.isProcessing = false;
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // Audio Player Functions
-function playAudio(audioLink: string) {
+async function playAudio(audioLink: string) {
   if (!audioPlayerState.isPlaying) {
     audioPlayerState.isPlaying = true;
-    playAudioFromLink(audioLink) // Function to play audio
-      .then(() => {
-        audioPlayerState.isPlaying = false;
-        if (ttsState.queue.length > 0) {
-          processTTSQueue(); // Start next audio if queue is not empty
-        }
-      });
+    try {
+      // Play the audio twice
+      await playAudioFromLink(audioLink);
+      await sleep(30000);
+      await playAudioFromLink(audioLink);
+
+      audioPlayerState.isPlaying = false;
+      if (ttsState.queue.length > 0) {
+        processTTSQueue(); // Start next audio if queue is not empty
+      }
+    } catch (error) {
+      console.error("Error playing audio:", error);
+      audioPlayerState.isPlaying = false;
+    }
   }
 }
